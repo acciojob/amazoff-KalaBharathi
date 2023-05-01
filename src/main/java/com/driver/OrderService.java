@@ -22,9 +22,9 @@ public class OrderService {
     }
 
     public void addOrderPartnerPair(String orderId, String partnerId) {
-        Optional<Order> orderOpt=orderRepository.getOrderById(orderId);
+       Order orderOpt=orderRepository.getOrderById(orderId);
         Optional<DeliveryPartner> partnerOpt=orderRepository.getPartnerById(partnerId);
-        if(orderOpt.isPresent() && partnerOpt.isPresent()){
+        if(Objects.nonNull(orderOpt) && partnerOpt.isPresent()){
             DeliveryPartner currPartner=partnerOpt.get();
             Integer orders=currPartner.getNumberOfOrders();
             orders++;
@@ -35,10 +35,7 @@ public class OrderService {
     }
 
     public Order getOrderById(String orderId){
-        Optional<Order> orderOpt=orderRepository.getOrderById(orderId);
-        if(orderOpt.isPresent())
-            return orderOpt.get();
-        return null;
+        return orderRepository.getOrderById(orderId);
     }
 
     public DeliveryPartner getPartnerById(String partnerId) {
@@ -69,7 +66,7 @@ public class OrderService {
         int currTime=TimeUtils.convertDeliveryTime(time);
         int count=0;
         for(String orderId:orders){
-            int deliveryTime=orderRepository.getOrderById(orderId).get().getDeliveryTime();
+            int deliveryTime=orderRepository.getOrderById(orderId).getDeliveryTime();
             if(currTime<deliveryTime){
                 count++;
             }
@@ -81,7 +78,7 @@ public class OrderService {
         List<String> orders=orderRepository.getOrdersByPartnerId(partnerId);
         int max=0;
         for(String orderId:orders){
-            int deliveryTime=orderRepository.getOrderById(orderId).get().getDeliveryTime();
+            int deliveryTime=orderRepository.getOrderById(orderId).getDeliveryTime();
             if(max<deliveryTime){
                 max=deliveryTime;
             }

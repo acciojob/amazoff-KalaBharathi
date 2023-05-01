@@ -18,11 +18,8 @@ public class OrderRepository {
         partnerMap.put(partner.getId(),partner);
     }
 
-    public Optional<Order> getOrderById(String orderId) {
-        if(orderMap.containsKey(orderId)){
-            return Optional.of(orderMap.get(orderId));
-        }
-        return Optional.empty();
+    public Order getOrderById(String orderId) {
+        return orderMap.get(orderId);
     }
 
     public Optional<DeliveryPartner> getPartnerById(String partnerId) {
